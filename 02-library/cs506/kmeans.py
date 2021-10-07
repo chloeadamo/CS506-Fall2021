@@ -3,7 +3,6 @@ from math import inf
 import random
 import csv
 
-
 def point_avg(points):
     """
     Accepts a list of points, each with the same number of dimensions.
@@ -11,7 +10,10 @@ def point_avg(points):
     
     Returns a new point which is the center of all the points.
     """
-    raise NotImplementedError()
+    x = [p[0] for p in points]
+    y = [p[1] for p in points]
+    centroid = (sum(x) / len(points), sum(y) / len(points))
+    return centroid
 
 
 def update_centers(dataset, assignments):
@@ -21,7 +23,10 @@ def update_centers(dataset, assignments):
     Compute the center for each of the assigned groups.
     Return `k` centers in a list
     """
-    raise NotImplementedError()
+    k = max(assignments) + 1
+    clusters = [[point for i, point in enumerate(dataset) if assignments[i] == l] for l in range(k)]
+    centers = [point_avg(cluster) for cluster in clusters]
+    return centers
 
 def assign_points(data_points, centers):
     """
@@ -43,17 +48,21 @@ def distance(a, b):
     """
     Returns the Euclidean distance between a and b
     """
-    raise NotImplementedError()
+    res = 0
+    for i in range(len(a)):
+        res += (a[i] - b[i])**2
+    return res**(1/2)
 
 def distance_squared(a, b):
-    raise NotImplementedError()
+    return (distance(a, b))**2
 
 def generate_k(dataset, k):
     """
     Given `data_set`, which is an array of arrays,
     return a random set of k points from the data_set
     """
-    raise NotImplementedError()
+    random.shuffle(dataset)
+    return dataset[:k]
 
 def cost_function(clustering):
     raise NotImplementedError()
